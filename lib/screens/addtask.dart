@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:remainder_jash/main.dart';
 
 class InsertData extends StatefulWidget {
   const InsertData({Key? key}) : super(key: key);
@@ -15,17 +16,13 @@ class _InsertDataState extends State<InsertData> {
   TextEditingController userdescController = TextEditingController();
   TextEditingController userdateController = TextEditingController();
   TextEditingController timeinput = TextEditingController();
-  late DatabaseReference dfRef;
+  late DatabaseReference dbRef;
   TimeOfDay time = TimeOfDay.now();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
-  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.requestPermission();
-    dfRef = FirebaseDatabase.instance.ref().child('remainders');
+    dbRef = FirebaseDatabase.instance.ref().child('remainders');
   }
 
   @override
@@ -55,7 +52,6 @@ class _InsertDataState extends State<InsertData> {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Form(
-              key: _formkey,
               child: Column(
                 children: [
                   SizedBox(height: 5),
@@ -220,7 +216,6 @@ class _InsertDataState extends State<InsertData> {
                   MaterialButton(
                     onPressed: () async {
                       // Call the method to send the notification to FCM
-                      await sendNotificationToFCM();
 
                       Map<String, String> remainders = {
                         'title': usertitleController.text,
@@ -229,7 +224,7 @@ class _InsertDataState extends State<InsertData> {
                         'time': timeinput.text
                       };
 
-                      dfRef.push().set(remainders);
+                      dbRef.push().set(remainders);
                     },
                     child: Text('Add Task'),
                     color: Colors.red,
@@ -246,23 +241,6 @@ class _InsertDataState extends State<InsertData> {
     );
   }
 
-  Future<void> sendNotificationToFCM() async {
-    // Create the notification message
-    final message = <String, dynamic>{
-      'notification': {
-        'title': usertitleController.text,
-        'body': userdescController.text,
-      },
-      'data': {
-        'date': userdateController.text,
-        'time': timeinput.text,
-      },
-      'priority': 'high', // Set the priority of the notification
-    };
-
-    // Send the notification message using the FirebaseMessaging instance
-    await _firebaseMessaging.sendMessage();
-  }
 
 // ...
 }
