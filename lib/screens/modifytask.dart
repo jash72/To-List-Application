@@ -1,8 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:remainder_jash/screens/modifytask.dart';
 
 class UpdateRecord extends StatefulWidget {
 
@@ -16,10 +14,10 @@ class UpdateRecord extends StatefulWidget {
 
 class _UpdateRecordState extends State<UpdateRecord> {
 
-  TextEditingController usertitleController = TextEditingController();
-  TextEditingController userdescController = TextEditingController();
-  TextEditingController userdateController = TextEditingController();
-  TextEditingController timeinput = TextEditingController();
+  TextEditingController userTitleController = TextEditingController();
+  TextEditingController userDescController = TextEditingController();
+  TextEditingController userDateController = TextEditingController();
+  TextEditingController timeInput = TextEditingController();
   late DatabaseReference dbRef;
   TimeOfDay time = TimeOfDay.now();
 
@@ -27,18 +25,18 @@ class _UpdateRecordState extends State<UpdateRecord> {
   void initState() {
     super.initState();
     dbRef = FirebaseDatabase.instance.ref().child('remainders');
-    getremaindersData();
+    getRemaindersData();
   }
 
-  void getremaindersData() async {
+  void getRemaindersData() async {
     DataSnapshot snapshot = await dbRef.child(widget.remaindersKey).get();
 
     Map remainders = snapshot.value as Map;
 
-    usertitleController.text = remainders['title'];
-    userdescController.text = remainders['desc'];
-    userdateController.text = remainders['Date'];
-    timeinput.text = remainders['time'];
+    userTitleController.text = remainders['title'];
+    userDescController.text = remainders['desc'];
+    userDateController.text = remainders['Date'];
+    timeInput.text = remainders['time'];
 
   }
 
@@ -51,7 +49,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
           title: Text(
             "Add Task to Remain",
             style: TextStyle(
-              fontFamily: 'Arimo',
+              fontFamily: 'Primo',
               color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.bold,
@@ -66,7 +64,6 @@ class _UpdateRecordState extends State<UpdateRecord> {
           ),
         ),
         body: SingleChildScrollView(
-        child: Container(
         child: Padding(
         padding: EdgeInsets.all(8.0),
     child: Column(
@@ -74,11 +71,11 @@ class _UpdateRecordState extends State<UpdateRecord> {
     SizedBox(height: 5),
     TextFormField(
     autofocus: false,
-    controller: usertitleController,
-    style: TextStyle(fontFamily: 'Arimo'),
+    controller: userTitleController,
+    style: TextStyle(fontFamily: 'Primo'),
     keyboardType: TextInputType.text,
     onSaved: (value) {
-    usertitleController.text = value!;
+    userTitleController.text = value!;
     },
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
@@ -88,7 +85,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     ),
     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
     hintText: "Enter the title here",
-    hintStyle: TextStyle(fontFamily: 'Arimo'),
+    hintStyle: TextStyle(fontFamily: 'Primo'),
     ),
     ),
     const SizedBox(
@@ -97,8 +94,8 @@ class _UpdateRecordState extends State<UpdateRecord> {
     TextFormField(
     maxLines: null,
     autofocus: false,
-    controller: userdescController,
-    style: TextStyle(fontFamily: 'Arimo'),
+    controller: userDescController,
+    style: TextStyle(fontFamily: 'Primo'),
     keyboardType: TextInputType.text,
     validator: (value) {
     if (value!.isEmpty) {
@@ -107,7 +104,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     return null;
     },
     onSaved: (value) {
-    userdescController.text = value!;
+    userDescController.text = value!;
     },
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
@@ -117,7 +114,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     ),
     contentPadding: EdgeInsets.fromLTRB(10, 15, 10, 50),
     hintText: "Description of the Task",
-    hintStyle: TextStyle(fontFamily: 'Arimo'),
+    hintStyle: TextStyle(fontFamily: 'Primo'),
     border: OutlineInputBorder(
     borderRadius: BorderRadius.circular(10),
     ),
@@ -127,20 +124,20 @@ class _UpdateRecordState extends State<UpdateRecord> {
     height: 20,
     ),
     TextFormField(
-    controller: userdateController,
+    controller: userDateController,
     autofocus: false,
-    style: TextStyle(fontFamily: 'Arimo'),
+    style: TextStyle(fontFamily: 'Primo'),
     onTap: () async {
-    DateTime? pickdate = await showDatePicker(
+    DateTime? pickDate = await showDatePicker(
     context: context,
     initialDate: DateTime.now(),
     firstDate: DateTime.now().subtract(Duration(days: 0)),
     lastDate: DateTime(2050),
     );
-    if (pickdate != null) {
+    if (pickDate != null) {
     setState(() {
-    userdateController.text =
-    DateFormat('dd-MM-yyyy').format(pickdate);
+    userDateController.text =
+    DateFormat('dd-MM-yyyy').format(pickDate);
     });
     }
     },
@@ -151,7 +148,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     return null;
     },
     onSaved: (value) {
-    userdateController.text = value!;
+    userDateController.text = value!;
     },
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
@@ -165,7 +162,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     ),
     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
     hintText: "date",
-    hintStyle: TextStyle(fontFamily: 'Arimo'),
+    hintStyle: TextStyle(fontFamily: 'Primo'),
     ),
     ),
     const SizedBox(
@@ -173,13 +170,13 @@ class _UpdateRecordState extends State<UpdateRecord> {
     ),
     TextFormField(
     autofocus: false,
-    controller: timeinput,
+    controller: timeInput,
     style: TextStyle(
-    fontFamily: 'Arimo',
+    fontFamily: 'Primo',
     ),
     keyboardType: TextInputType.number,
     onTap: () async {
-    TimeOfDay? picktime = await showTimePicker(
+    TimeOfDay? pickTime = await showTimePicker(
     context: context,
     initialTime:
     TimeOfDay(hour: time.hour, minute: time.minute),
@@ -192,9 +189,9 @@ class _UpdateRecordState extends State<UpdateRecord> {
     );
     },
     );
-    if (picktime != null) {
+    if (pickTime != null) {
     setState(() {
-    timeinput.text = picktime.format(context);
+    timeInput.text = pickTime.format(context);
     });
     }
     },
@@ -205,7 +202,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     return null;
     },
     onSaved: (value) {
-    timeinput.text = value!;
+    timeInput.text = value!;
     },
     textInputAction: TextInputAction.next,
     decoration: InputDecoration(
@@ -220,7 +217,7 @@ class _UpdateRecordState extends State<UpdateRecord> {
     ),
     hintText: "Time",
     hintStyle: TextStyle(
-    fontFamily: 'Arimo',
+    fontFamily: 'Primo',
     ),
     ),
     ),
@@ -234,10 +231,10 @@ class _UpdateRecordState extends State<UpdateRecord> {
     onPressed: () async {
 
     Map<String, String> remainders = {
-    'title': usertitleController.text,
-    'desc': userdescController.text,
-    'Date': userdateController.text,
-    'time': timeinput.text
+    'title': userTitleController.text,
+    'desc': userDescController.text,
+    'Date': userDateController.text,
+    'time': timeInput.text
     };
 
                   dbRef.child(widget.remaindersKey).update(remainders)
@@ -246,16 +243,15 @@ class _UpdateRecordState extends State<UpdateRecord> {
                   });
 
                 },
-                child: const Text('Update Data'),
                 color: Colors.blue,
                 textColor: Colors.white,
                 minWidth: 300,
                 height: 40,
+                child: const Text('Update Data'),
               ),
             ],
           ),
         ),
-      ),
     ),
         );
   }

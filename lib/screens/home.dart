@@ -6,7 +6,8 @@ import 'package:remainder_jash/screens/button.dart';
 import 'package:remainder_jash/screens/modifytask.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:remainder_jash/screens/theme.dart';
-import 'addtask.dart';
+import 'package:remainder_jash/screens/theme_services.dart';
+import 'package:remainder_jash/screens/addtask.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FetchData extends StatefulWidget {
@@ -116,9 +117,7 @@ class _FetchDataState extends State<FetchData> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('home'),
-      ),
+      appBar: _appBar(),
       body: Column(
         children: [
           Container(
@@ -190,4 +189,23 @@ class _FetchDataState extends State<FetchData> {
       ),
     );
   }
+  _appBar(){
+    return AppBar(
+      leading: GestureDetector(
+        onTap:(){
+          ThemeService().switchTheme();
+        },
+        child: const Icon(Icons.nightlight_round,
+          size: 20,),
+      ),
+      actions: const [
+        Icon(Icons.person,
+          size: 20,),
+        SizedBox(width: 20,),
+      ],
+
+
+    );
+  }
+
 }
