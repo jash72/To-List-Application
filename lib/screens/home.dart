@@ -18,6 +18,7 @@ class FetchData extends StatefulWidget {
 }
 
 class _FetchDataState extends State<FetchData> {
+  final userStatusController = TextEditingController();
   Query dbRef = FirebaseDatabase.instance.ref().child('remainders');
   DatabaseReference reference = FirebaseDatabase.instance.ref().child('remainders');
 
@@ -34,10 +35,12 @@ class _FetchDataState extends State<FetchData> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Text(
               remainders['title'],
-              style: const TextStyle(fontSize: 20, fontFamily: 'Arimo', fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontFamily: 'Primo', fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 6,),
             Row(
               children: [
@@ -81,13 +84,25 @@ class _FetchDataState extends State<FetchData> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => UpdateRecord(remaindersKey: remainders['key'])));
                   },
                   child: const Row(
                     children: [
                       Icon(
-                        Icons.edit,
+                        Icons.check_circle_outline_sharp,
                         color: Colors.green,
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => UpdateRecord(remaindersKey: remainders['key'])));
+                  },
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.edit,
+                        color: Colors.deepOrange,
                       ),
                     ],
                   ),
@@ -97,11 +112,11 @@ class _FetchDataState extends State<FetchData> {
                   onTap: () {
                     reference.child(remainders['key']).remove();
                   },
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(
                         Icons.delete,
-                        color: Colors.red,
+                        color: Colors.red[900],
                       ),
                     ],
                   ),

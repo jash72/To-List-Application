@@ -10,10 +10,11 @@ class InsertData extends StatefulWidget {
 }
 
 class _InsertDataState extends State<InsertData> {
-  TextEditingController userTitleController = TextEditingController();
-  TextEditingController userDescController = TextEditingController();
-  TextEditingController userDateController = TextEditingController();
-  TextEditingController timeInput = TextEditingController();
+  final  userTitleController = TextEditingController();
+  final  userDescController = TextEditingController();
+  final userDateController = TextEditingController();
+  final timeInput = TextEditingController();
+  final userStatusController = TextEditingController();
   late DatabaseReference dbRef;
   TimeOfDay time = TimeOfDay.now();
 
@@ -212,13 +213,12 @@ class _InsertDataState extends State<InsertData> {
                 ),
                 MaterialButton(
                   onPressed: () async {
-                    // Call the method to send the notification to FCM
-
                     Map<String, String> remainders = {
                       'title': userTitleController.text,
                       'desc': userDescController.text,
                       'Date': userDateController.text,
-                      'time': timeInput.text
+                      'time': timeInput.text,
+                      'status': 'incompleted', // Set the default value
                     };
 
                     dbRef.push().set(remainders);
@@ -236,7 +236,4 @@ class _InsertDataState extends State<InsertData> {
       ),
     );
   }
-
-
-// ...
 }
